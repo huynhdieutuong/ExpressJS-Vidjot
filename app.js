@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -16,9 +17,12 @@ mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: true })
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
-// BodyParser Middleware
+// Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Method Override Middleware
+app.use(methodOverride('_method'));
 
 // Routes
 app.get('/', (req, res) => res.render('index', {title: 'Welcome'}));
