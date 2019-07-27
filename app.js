@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -8,7 +9,9 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+// Load Routes
 const ideasRoute = require('./routes/ideas.route');
+const usersRoute = require('./routes/users.route');
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: true })
@@ -22,6 +25,9 @@ app.set('view engine', 'handlebars');
 // Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Method Override Middleware
 app.use(methodOverride('_method'));
@@ -47,6 +53,7 @@ app.get('/', (req, res) => res.render('index', {title: 'Welcome'}));
 app.get('/about', (req, res) => res.render('about', {title: 'About'}));
 
 app.use('/ideas', ideasRoute);
+app.use('/users', usersRoute);
 
 
 // Port
