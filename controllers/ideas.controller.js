@@ -18,6 +18,7 @@ module.exports.postAdd = async (req, res) => {
     title: title.trim(),
     details: details.trim()
   });
+  req.flash('success_msg', 'Video Idea Added');
   res.redirect('/ideas');
 }
 
@@ -35,10 +36,12 @@ module.exports.putEdit = async (req, res) => {
     title: title.trim(),
     details: details.trim()
   });
+  req.flash('success_msg', 'Video Idea Edited');
   res.redirect('/ideas');
 }
 
 module.exports.delete = async (req, res) => {
   await Idea.findByIdAndDelete(req.params.id);
+  req.flash('error_msg', 'Video Idea Deleted');
   res.redirect('/ideas');
 }
