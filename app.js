@@ -23,8 +23,8 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 // Body Parser Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
