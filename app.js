@@ -21,7 +21,7 @@ const { requireAuth } = require('./helpers/auth');
 require('./config/passport');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/vidjot-dev', { useNewUrlParser: true })
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true })
   .then(() => console.log('MongoDB Connected!'))
   .catch(err => console.log(err));
 
@@ -70,5 +70,5 @@ app.use('/users', usersRoute);
 
 
 // Port
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
