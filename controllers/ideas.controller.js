@@ -1,7 +1,7 @@
 const Idea = require('../models/Idea.model');
 
 module.exports.index = async (req, res) => {
-  const ideas = await Idea.find().sort({date:'desc'});
+  const ideas = await Idea.find({userId: req.user.id}).sort({date:'desc'});
   res.render('ideas/index', {
     title: 'Ideas',
     ideas
@@ -16,7 +16,8 @@ module.exports.postAdd = async (req, res) => {
   const { title, details } = req.body;
   await Idea.create({
     title: title.trim(),
-    details: details.trim()
+    details: details.trim(),
+    userId: req.user.id
   });
   req.flash('success_msg', 'Video Idea Added');
   res.redirect('/ideas');
@@ -24,6 +25,10 @@ module.exports.postAdd = async (req, res) => {
 
 module.exports.edit = async (req, res) => {
   const idea = await Idea.findById(req.params.id);
+  if(idea.userId !== req.user.id) {
+    req.flash('error_msg', 'Not Authenticated');
+    return res.redirect('/ideas');
+  }
   res.render('ideas/edit', {
     title: 'Edit Idea',
     idea
