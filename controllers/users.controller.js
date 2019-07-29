@@ -27,3 +27,9 @@ module.exports.postRegister = async (req, res) => {
   req.flash('success_msg', 'Register Success');
   res.redirect('/users/login');
 }
+
+module.exports.logout = (req, res) => {
+  req.logout();
+  req.flash('success_msg', 'You are logged out');
+  res.redirect('/users/login');
+}

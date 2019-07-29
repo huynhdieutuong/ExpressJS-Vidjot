@@ -14,6 +14,9 @@ const app = express();
 const ideasRoute = require('./routes/ideas.route');
 const usersRoute = require('./routes/users.route');
 
+// Load Helpers
+const { requireAuth } = require('./helpers/auth');
+
 // Passport Config
 require('./config/passport');
 
@@ -62,7 +65,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => res.render('index', {title: 'Welcome'}));
 app.get('/about', (req, res) => res.render('about', {title: 'About'}));
 
-app.use('/ideas', ideasRoute);
+app.use('/ideas', requireAuth, ideasRoute);
 app.use('/users', usersRoute);
 
 
